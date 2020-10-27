@@ -7,7 +7,7 @@ namespace WorkloadProject.Models
 {
     public class ServerRFD
     {
-        public int RFD { get; set; }
+        public int RFDID { get; set; }
 
         public int LastBatchID { get; set; }
 

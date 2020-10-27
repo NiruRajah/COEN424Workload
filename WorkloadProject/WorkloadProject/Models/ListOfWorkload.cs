@@ -9,6 +9,7 @@ namespace WorkloadProject.Models
 {
     public class ListOfWorkload
     {
+        //public static string FilePath = Path.Combine(Environment.CurrentDirectory) + "../../../../Data";
         public static string FilePath = Path.Combine(Environment.CurrentDirectory) + "/Data";
 
         public static string FilePathDVDTesting = FilePath + "/DVD-testing.csv";

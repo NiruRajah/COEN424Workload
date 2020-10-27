@@ -7,7 +7,7 @@ namespace WorkloadProject.Models
 {
     public class ClientRFW
     {
-        public int ID { get; set; }
+        public int RFWID { get; set; }
 
         public BenchmarkType BenchmarkType {get; set; }
 
@@ -22,10 +22,11 @@ namespace WorkloadProject.Models
 
     public enum BenchmarkType
     {
-        DVDTraining = 0,
-        DVDTesting = 1,
-        NDBenchTraining = 2,
-        NDBenchTesting = 3
+        DVDTesting = 0,
+        DVDTraining = 1,
+        NDBenchTesting = 2,
+        NDBenchTraining = 3
+        
     }
 
     public enum WorkloadMetric
