@@ -19,7 +19,6 @@ namespace WorkloadProject.Controllers
         {
             ServerRFD serverRFD = new ServerRFD();
             serverRFD.Batches = new List<Batch>();
-            //string workloadColumnName = GetWorkloadColumn(clientRFWRequestBody.WorkloadMetric);
             List<Workload> workloadList = new List<Workload>(GetBenchmarkType(clientRFWRequestBody.BenchmarkType));
             List<double> allColumnValuesList = new List<double>(GetAllWorkloadColumnValues(clientRFWRequestBody.WorkloadMetric, workloadList));
             List<Batch> allBatchesList = new List<Batch>(GetAllBatches(clientRFWRequestBody.BatchUnit, allColumnValuesList));
@@ -70,9 +69,6 @@ namespace WorkloadProject.Controllers
                     }
                     
                     counter++;
-
-                    
-
                 }
                 allBatchesList.Add(batch);
 
@@ -107,38 +103,6 @@ namespace WorkloadProject.Controllers
             }
             return allColValuesList;
         }
-
-      
-
-
-        /*
-        public WorkloadMetric GetWorkloadColumn(WorkloadMetric workloadMetric)
-        {
-            WorkloadMetric column;
-
-            if(WorkloadMetric.CPU == workloadMetric)
-            {
-                column = "CPUUtilization_Average";
-            }
-            else if (WorkloadMetric.NetworkIn == workloadMetric)
-            {
-                column = "NetworkIn_Average";
-            }
-            else if (WorkloadMetric.NetworkOut == workloadMetric)
-            {
-                column = "NetworkOut_Average";
-            }
-            else if (WorkloadMetric.Memory == workloadMetric)
-            {
-                column = "MemoryUtilization_Average";
-            }
-            else
-            {
-                column = "Error";
-            }
-
-            return column;
-        }*/
 
         public List<Workload> GetBenchmarkType(BenchmarkType benchmrk)
         {
