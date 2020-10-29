@@ -1,0 +1,82 @@
+{
+    "ClientRequest":
+        {
+          "RFWID" : 1,
+          "BenchmarkType": 1,
+          "WorkloadMetric": 2,
+          "BatchUnit": 4,
+          "BatchId": 2,
+          "BatchSize": 7
+        },
+        
+        "ServerResponse":
+        {
+            "rfdid": 1,
+            "lastBatchID": 8,
+            "batches": [
+                {
+                    "batchID": 2,
+                    "requestedSamples": [
+                        85419537,
+                        86025028,
+                        92524925,
+                        104916160
+                    ]
+                },
+                {
+                    "batchID": 3,
+                    "requestedSamples": [
+                        121327010,
+                        139106441,
+                        156061699,
+                        171070322
+                    ]
+                },
+                {
+                    "batchID": 4,
+                    "requestedSamples": [
+                        183560666,
+                        192401745,
+                        195901118,
+                        193578405
+                    ]
+                },
+                {
+                    "batchID": 5,
+                    "requestedSamples": [
+                        187666763,
+                        181947520,
+                        178799262,
+                        177780732
+                    ]
+                },
+                {
+                    "batchID": 6,
+                    "requestedSamples": [
+                        177207045,
+                        176836746,
+                        179040792,
+                        187318096
+                    ]
+                },
+                {
+                    "batchID": 7,
+                    "requestedSamples": [
+                        202762891,
+                        220944974,
+                        232674945,
+                        229620027
+                    ]
+                },
+                {
+                    "batchID": 8,
+                    "requestedSamples": [
+                        210685551,
+                        183337527,
+                        158585389,
+                        144327848
+                    ]
+                }
+            ]    
+        }
+}
