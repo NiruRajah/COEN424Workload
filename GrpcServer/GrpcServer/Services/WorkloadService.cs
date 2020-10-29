@@ -23,13 +23,22 @@ namespace GrpcServer
 
         public WorkloadResponse GetWorkloadResponse(WorkloadRequest clientRFWRequestBody)
         {
+            CheckForBelowOneParameters(clientRFWRequestBody);
             WorkloadResponse serverRFD = new WorkloadResponse();
             List<Models.Workload> workloadList = new List<Models.Workload>(GetBenchmarkType(clientRFWRequestBody.BenchmarkType));
             List<double> allColumnValuesList = new List<double>(GetAllWorkloadColumnValues(clientRFWRequestBody.WorkloadMetric, workloadList));
             List<Batch> allBatchesList = new List<Batch>(GetAllBatches(clientRFWRequestBody.BatchUnit, allColumnValuesList));
 
             int startIndex = clientRFWRequestBody.BatchID - 1;
-            int endIndex = startIndex + clientRFWRequestBody.BatchSize;
+            int endIndex = 0;
+            if ((startIndex + clientRFWRequestBody.BatchSize) <= allBatchesList.Count())
+            {
+                endIndex = startIndex + clientRFWRequestBody.BatchSize;
+            }
+            else
+            {
+                endIndex = allBatchesList.Count();
+            }
 
             for (int i = startIndex; i < endIndex; i++)
             {
@@ -42,11 +51,29 @@ namespace GrpcServer
             return serverRFD;
         }
 
+        public void CheckForBelowOneParameters(WorkloadRequest client)
+        {
+            if (client.RFWID < 1)
+            {
+                client.RFWID = 1;
+            }
+            if (client.BatchID < 1)
+            {
+                client.BatchID = 1;
+            }
+            if (client.BatchUnit < 1)
+            {
+                client.BatchUnit = 1;
+            }
+            if (client.BatchSize < 1)
+            {
+                client.BatchSize = 1;
+            }
+        }
+
         public List<Batch> GetAllBatches(int batchUnit, List<double> allColValuesList)
         {
             List<Batch> allBatchesList = new List<Batch>();
-
-
 
             for (int i = 0; i < allColValuesList.Count(); i += batchUnit)
             {
@@ -55,23 +82,15 @@ namespace GrpcServer
 
                 while (counter < batchUnit)
                 {
-
                     batch.BatchID = ((i + counter) + batchUnit) / batchUnit;
                     if (i + counter < allColValuesList.Count())
                     {
                         batch.RequestedSamples.Add(allColValuesList[i + counter]);
                     }
-                    else
-                    {
-                        // Do None
-                    }
-
                     counter++;
                 }
                 allBatchesList.Add(batch);
-
             }
-
 
             return allBatchesList;
         }
