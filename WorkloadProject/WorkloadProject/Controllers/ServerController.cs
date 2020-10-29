@@ -17,6 +17,7 @@ namespace WorkloadProject.Controllers
         [HttpGet]
         public ServerRFD ServerResponse([FromBody] ClientRFW clientRFWRequestBody)
         {
+            CheckForBelowOneParameters(clientRFWRequestBody);
             ServerRFD serverRFD = new ServerRFD();
             serverRFD.Batches = new List<Batch>();
             List<Workload> workloadList = new List<Workload>(GetBenchmarkType(clientRFWRequestBody.BenchmarkType));
@@ -24,7 +25,15 @@ namespace WorkloadProject.Controllers
             List<Batch> allBatchesList = new List<Batch>(GetAllBatches(clientRFWRequestBody.BatchUnit, allColumnValuesList));
 
             int startIndex = clientRFWRequestBody.BatchID - 1;
-            int endIndex = startIndex + clientRFWRequestBody.BatchSize;
+            int endIndex = 0;
+            if((startIndex + clientRFWRequestBody.BatchSize) <= allBatchesList.Count())
+            {
+                endIndex = startIndex + clientRFWRequestBody.BatchSize;
+            }
+            else
+            {
+                endIndex = allBatchesList.Count();
+            }
 
             for (int i = startIndex; i < endIndex; i++)
             {
@@ -36,7 +45,28 @@ namespace WorkloadProject.Controllers
 
             return serverRFD;
         }
+        
+        public void CheckForBelowOneParameters(ClientRFW client)
+        {
+            if(client.RFWID < 1)
+            {
+                client.RFWID = 1;
+            }
+            if(client.BatchID < 1)
+            {
+                client.BatchID = 1;
+            }
+            if(client.BatchUnit < 1)
+            {
+                client.BatchUnit = 1;
+            }
+            if(client.BatchSize < 1)
+            {
+                client.BatchSize = 1;
+            }
+        }
 
+        // Tests to see if it returns all the values in every column in DVDTesting (Not necessary for project requirements)
         [HttpGet("all")]
         public List<Workload> GetResponse()
         {
@@ -47,8 +77,6 @@ namespace WorkloadProject.Controllers
         {
             List<Batch> allBatchesList = new List<Batch>();
             
-            
-
             for(int i = 0; i < allColValuesList.Count(); i += batchUnit)
             {
                 int counter = 0;
@@ -57,24 +85,16 @@ namespace WorkloadProject.Controllers
 
                 while (counter < batchUnit)
                 {
-                    
                     batch.BatchID = ((i + counter) + batchUnit) / batchUnit;
                     if(i + counter < allColValuesList.Count())
                     {
                         batch.RequestedSamples.Add(allColValuesList[i + counter]);
                     }
-                    else
-                    {
-                        // Do None
-                    }
-                    
                     counter++;
                 }
                 allBatchesList.Add(batch);
-
             }
 
-            
             return allBatchesList;
         }
 
@@ -127,6 +147,5 @@ namespace WorkloadProject.Controllers
 
             return wrkloadList;
         }
-
     }
 }
