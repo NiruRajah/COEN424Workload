@@ -81,28 +81,6 @@ namespace GrpcClient
                     + "\"lastbatchID\": " + workloadResponse.LastBatchID.ToString() + ",\n"
                     + "\"batches\": [");
 
-                /*char[] response = workloadResponse.Batches.ToString().ToCharArray();
-
-                List<string> finalReponse = new List<string>();
-
-                for(int i = 0; i < response.Length; i++)
-                {
-                    if(response[i].Equals('{') || response[i].Equals('}') || response[i].Equals(','))
-                    {
-
-                        finalReponse.Add("\n" + response[i].ToString());
-                    }
-                    else
-                    {
-                        finalReponse.Add(response[i].ToString());
-                    }
-                }
-                
-                for(int i = 0; i < finalReponse.Count(); i++)
-                {
-                    Console.Write(finalReponse[i]);
-                }*/
-
                 for (int i = 0; i < workloadResponse.Batches.Count(); i++)
                 {
                     Console.WriteLine("\t{\t\"batchID\": " + workloadResponse.Batches[i].BatchID + ",");
