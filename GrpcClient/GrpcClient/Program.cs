@@ -24,7 +24,15 @@ namespace GrpcClient
                 bool inputChecker = true;
 
                 Console.WriteLine("Enter RFWID: ");
-                Int32 rfwId = Convert.ToInt32(Console.ReadLine());
+                int num = -1;
+                string inputRFWID = Console.ReadLine();
+
+                while (!int.TryParse(inputRFWID, out num))
+                {
+                    Console.WriteLine("The value must be an integer. Please re-enter RFWID:");
+                    inputRFWID = Console.ReadLine();
+                }
+                Int32 rfwId = Convert.ToInt32(inputRFWID);
 
                 string benchmark = "";
 
@@ -57,13 +65,33 @@ namespace GrpcClient
                 inputChecker = true;
 
                 Console.WriteLine("Enter BatchUnit: ");
-                Int32 batchUnit = Convert.ToInt32(Console.ReadLine());
+                string inputBatchUnit = Console.ReadLine();
+                while (!int.TryParse(inputBatchUnit, out num))
+                {
+                    Console.WriteLine("The value must be an integer. Please re-enter BatchUnit:");
+                    inputBatchUnit = Console.ReadLine();
+                }
+                Int32 batchUnit = Convert.ToInt32(inputBatchUnit);
 
                 Console.WriteLine("Enter BatchID: ");
-                Int32 batchId = Convert.ToInt32(Console.ReadLine());
+                string inputBatchID = Console.ReadLine();
+                while (!int.TryParse(inputBatchID, out num))
+                {
+                    Console.WriteLine("The value must be an integer. Please re-enter BatchID:");
+                    inputBatchID = Console.ReadLine();
+                }
+                Int32 batchId = Convert.ToInt32(inputBatchID);
 
                 Console.WriteLine("Enter BatchSize: ");
-                Int32 batchSize = Convert.ToInt32(Console.ReadLine());
+                string inputBatchSize = Console.ReadLine();
+
+                while (!int.TryParse(inputBatchSize, out num))
+                {
+
+                    Console.WriteLine("The size of the batch must be an integer. Please re-enter the size of the batch:");
+                    inputBatchSize = Console.ReadLine();
+                }
+                Int32 batchSize = Convert.ToInt32(inputBatchSize);
 
                 WorkloadRequest workloadRequest = new WorkloadRequest();
                 workloadRequest.RFWID = rfwId;
@@ -84,10 +112,10 @@ namespace GrpcClient
                 for (int i = 0; i < workloadResponse.Batches.Count(); i++)
                 {
                     Console.WriteLine("\t{\t\"batchID\": " + workloadResponse.Batches[i].BatchID + ",");
-                    Console.WriteLine("\t\t\"requestedSamples\" [\n");
-                    for(int j = 0; j < workloadResponse.Batches.Count(); j++)
+                    Console.WriteLine("\t\t\"requestedSamples\": [\n");
+                    for(int j = 0; j < workloadResponse.Batches[i].RequestedSamples.Count(); j++)
                     {
-                        if(j == workloadResponse.Batches.Count() - 1)
+                        if(j == workloadResponse.Batches[i].RequestedSamples.Count() - 1)
                         {
                             Console.WriteLine("\t\t\t" + workloadResponse.Batches[i].RequestedSamples[j] + "\n\t\t]\n\t},");
                         }
@@ -95,6 +123,10 @@ namespace GrpcClient
                         {
                             Console.WriteLine("\t\t\t" + workloadResponse.Batches[i].RequestedSamples[j] + ",");
                         }
+                    }
+                    if(i == workloadResponse.Batches.Count - 1)
+                    {
+                        Console.WriteLine("]");
                     }
                 }
 
