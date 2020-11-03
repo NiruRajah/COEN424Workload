@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcServer";
+
+package work;
+
+// The workload service definition.
+service Workload {
+  // Sends request and returns response
+  rpc GetWorkload (WorkloadRequest) returns (WorkloadResponse);
+}
+
+// The request containing the workload
+message WorkloadRequest {
+  enum BenchmarkType {
+        DvdTesting = 0;
+        DvdTraining = 1;
+        NdBenchTesting = 2;
+        NdBenchTraining = 3;
+  }
+  enum WorkloadMetric {
+        Cpu = 0;
+        NetworkIn = 1;
+        NetworkOut = 2;
+        Memory = 3;
+  }
+  int32 RFWID = 1;
+  BenchmarkType benchmarkType = 2;
+  WorkloadMetric workloadMetric = 3;
+  int32 BatchUnit = 4;
+  int32 BatchID = 5;
+  int32 BatchSize = 6;
+}
+
+// The response containing the workload.
+message WorkloadResponse {
+  int32 RFDID = 1;
+  int32 LastBatchID = 2;
+  repeated Batch Batches = 3;
+}
+
+// The Batch info
+message Batch {
+  int32 BatchID = 1;
+  repeated double RequestedSamples = 2;
+}
